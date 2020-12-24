@@ -36,4 +36,4 @@ h = arrays[0]
 t = arrays[1]
 f = arrays[2]
 
-print(h)
+print(t)
