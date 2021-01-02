@@ -11,7 +11,7 @@ def Discretizator(N, a, b):
 
 	#F = np.zeros(N+1)
 	T = np.zeros(N+1)
-	H = (abs(b-a))/N
+	H = (b-a)/N
 	for i in range(0,len(T)):
 		T[i] = a+(i*H)
 
@@ -22,11 +22,11 @@ def Discretizator(N, a, b):
 
 
 def f1(y, x, t):
-	F1 = x
+	F1 = -2*y
 	return F1
 
 def f2(y, x, t):
-	F2 = 6 * t
+	F2 = 4*y
 	return F2
 
 def RK4(y0,x0,N,t,h):
@@ -57,17 +57,35 @@ def RK4(y0,x0,N,t,h):
 
 	return [y,x]
 
-a = 0
-b = 8
-N = 8
-y0 = 0
-x0 = 0
-t = Discretizator(N, a, b)[1]
-h = Discretizator(N, a, b)[0]
+a1 = 0
+b1 = 2*math.pi
+N1 = 100
+y01 = 0
+x01 = 1
+t1 = Discretizator(N1, a1, b1)[1]
+h1 = Discretizator(N1, a1, b1)[0]
 
-Y = RK4(y0,x0,N,t,h)[0]
-X = RK4(y0,x0,N,t,h)[1]
+Y1 = RK4(y01,x01,N1,t1,h1)[0]
+Y1 = np.delete(Y1,0)
+X1 = RK4(y01,x01,N1,t1,h1)[1]
+t1 = np.delete(t1,0)
+
+a2 = 0
+b2 = -2*math.pi
+N2 = 100
+y02 = 0
+x02 = 1
+t2 = Discretizator(N2, a2, b2)[1]
+h2 = Discretizator(N2, a2, b2)[0]
+
+Y2 = RK4(y02,x02,N2,t2,h2)[0]
+X2 = RK4(y02,x02,N2,t2,h2)[1]
+Y2 = Y2[::-1]
+t2 = t2[::-1]
+
+Y = np.concatenate((Y2,Y1))
+T = np.concatenate((t2,t1))
 
 print(Y)
-plt.plot(t,Y,"o",color = 'black')
+plt.plot(T,Y,"o",color = 'black')
 plt.show()
