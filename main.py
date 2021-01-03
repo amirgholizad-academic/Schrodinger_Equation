@@ -22,11 +22,11 @@ def Discretizator(N, a, b):
 
 
 def f1(y, x, t):
-	F1 = -2*y
+	F1 = -4*t*math.exp(-2*(t**2))
 	return F1
 
 def f2(y, x, t):
-	F2 = 4*y
+	F2 = 4*(t**2-1)*y
 	return F2
 
 def RK4(y0,x0,N,t,h):
@@ -58,10 +58,10 @@ def RK4(y0,x0,N,t,h):
 	return [y,x]
 
 a1 = 0
-b1 = 2*math.pi
-N1 = 100
-y01 = 0
-x01 = 1
+b1 = 5
+N1 = 50
+y01 = 10
+x01 = 0
 t1 = Discretizator(N1, a1, b1)[1]
 h1 = Discretizator(N1, a1, b1)[0]
 
@@ -71,10 +71,10 @@ X1 = RK4(y01,x01,N1,t1,h1)[1]
 t1 = np.delete(t1,0)
 
 a2 = 0
-b2 = -2*math.pi
-N2 = 100
-y02 = 0
-x02 = 1
+b2 = -5
+N2 = 50
+y02 = 10
+x02 = 0
 t2 = Discretizator(N2, a2, b2)[1]
 h2 = Discretizator(N2, a2, b2)[0]
 
