@@ -6,29 +6,31 @@ from matplotlib import pyplot as plt
 import decimal
 import math
 
-
+#Taking an interval of [a,b] for t and discretizating it to N+1 numbers
 def Discretizator(N, a, b):
 
-	#F = np.zeros(N+1)
 	T = np.zeros(N+1)
+	#T is an array of numbers for values that t is allowed to have
 	H = (b-a)/N
+	#H is the difference between two numbers inside T
 	for i in range(0,len(T)):
 		T[i] = a+(i*H)
 
-	#for j in range(0,len(F)):
-	#	F[j] = f1(T[j])
-
 	return [H,T]
 
-
+#f1 is the righ hand side of the first equation
 def f1(y, x, t):
-	F1 = -4*t*math.exp(-2*(t**2))
+	F1 = x
 	return F1
 
+#f2 is the righ hand side of the second equation
 def f2(y, x, t):
 	F2 = 4*(t**2-1)*y
 	return F2
 
+#the RK4 takes the h, t, N(the number of discretization)
+# and initial conditions and returns the solution as two arrays
+# using Runge-Kutta algorithm
 def RK4(y0,x0,N,t,h):
 
 	y = np.zeros(N + 1)
@@ -57,6 +59,8 @@ def RK4(y0,x0,N,t,h):
 
 	return [y,x]
 
+#if the given interval contains negative numbers we are going to need to
+# spilit it to two arrays and then concatenate them
 a1 = 0
 b1 = 5
 N1 = 50
