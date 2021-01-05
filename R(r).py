@@ -23,7 +23,15 @@ def f1(y, x, t):
 
 #f2 is the righ hand side of the second equation
 def f2(y, x, t):
-	F2 = -y
+	#V = -14.39998
+	#M = 1 / 18*(10**(-16))
+	#h = 7.6199682*M*(10**(-20))
+	n = 1
+	#E = -13.6056 / (n ** 2)
+	k = 0
+	a0 = 1/2
+	landa = 1/(n*a0)
+	F2 = y*(k/(t**2) + 1/4 - landa/t) - (2/t)*x
 	return F2
 
 #the RK4 takes the h, t, N(the number of discretization)
@@ -51,9 +59,15 @@ def RK4(y0,x0,N,t,h):
 		K4y = f1(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h)
 		K4x = f2(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h)
 
+		#Mprime = 1 / 18
+		#hprime = 7.6199682 * Mprime
+		#nprime = 1
+		#Eprime = -13.6056 / (nprime ** 2)
+		#alpha = ((-8*Mprime*Eprime)**0.5)/hprime
 
 		y[n] = y[n - 1] + (K1y + 2 * K2y + 2 * K3y + K4y) * h / 6
 		x[n] = x[n - 1] + (K1x + 2 * K2x + 2 * K3x + K4x) * h / 6
+
 
 	return [y,x]
 
@@ -63,34 +77,35 @@ def RK4(y0,x0,N,t,h):
 
 #because the given interval for t = rho contains negative numbers we are going to need to
 # spilit it to two arrays and then concatenate them
-a1 = 0
-b1 = 5*math.pi*0.5
-N1 = 50
-y01 = 1
-x01 = 0
+a1 = 0.000000000001
+b1 = 10
+N1 = 1000
+a0 = 1/2
+y01 = a0**(-3/2)
+x01 = -a0**(-5/2)
 t1 = Discretizator(N1, a1, b1)[1]
 h1 = Discretizator(N1, a1, b1)[0]
 
 Y1 = RK4(y01,x01,N1,t1,h1)[0]
-Y1 = np.delete(Y1,0)
+#Y1 = np.delete(Y1,0)
 X1 = RK4(y01,x01,N1,t1,h1)[1]
-t1 = np.delete(t1,0)
+#t1 = np.delete(t1,0)
 
-a2 = 0
-b2 = -5
-N2 = 50
-y02 = 10
-x02 = 0
-t2 = Discretizator(N2, a2, b2)[1]
-h2 = Discretizator(N2, a2, b2)[0]
+#a2 = 0
+#b2 = -5
+#N2 = 50
+#y02 = 10
+#x02 = 0
+#t2 = Discretizator(N2, a2, b2)[1]
+#h2 = Discretizator(N2, a2, b2)[0]
 
-Y2 = RK4(y02,x02,N2,t2,h2)[0]
-X2 = RK4(y02,x02,N2,t2,h2)[1]
-Y2 = Y2[::-1]
-t2 = t2[::-1]
+#Y2 = RK4(y02,x02,N2,t2,h2)[0]
+#X2 = RK4(y02,x02,N2,t2,h2)[1]
+#Y2 = Y2[::-1]
+#t2 = t2[::-1]
 
-Y = np.concatenate((Y2,Y1))
-T = np.concatenate((t2,t1))
+#Y = np.concatenate((Y2,Y1))
+#T = np.concatenate((t2,t1))
 
 print(Y1)
 plt.plot(t1,Y1,"o",color = 'black')

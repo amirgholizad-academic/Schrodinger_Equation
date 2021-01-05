@@ -23,7 +23,9 @@ def f1(y, x, t):
 
 #f2 is the righ hand side of the second equation
 def f2(y, x, t):
-	F2 = -y
+	m = 0
+	k = 12
+	F2 = y*( (m/math.sin(t))**2 - k ) - x/math.tan(t)
 	return F2
 
 #the RK4 takes the h, t, N(the number of discretization)
@@ -62,18 +64,18 @@ def RK4(y0,x0,N,t,h):
 # finally we get :  d(y)/d(t) = f1 = x , d(x)/d(t) = y( (m/sin(t))**2 - k ) - cot(t)*x = f2
 
 
-a = 0
-b = 5*math.pi*0.5
-N = 50
-y0 = 1
+a = 0.00000001
+b = math.pi
+N = 1000
+y0 = (7)**1/2
 x0 = 0
-t = Discretizator(N1, a1, b1)[1]
-h = Discretizator(N1, a1, b1)[0]
+t = Discretizator(N, a, b)[1]
+h = Discretizator(N, a, b)[0]
 
-Y = RK4(y01,x01,N1,t1,h1)[0]
-X1 = RK4(y01,x01,N1,t1,h1)[1]
+Y = RK4(y0,x0,N,t,h)[0]
+X1 = RK4(y0,x0,N,t,h)[1]
 
 
-print(Y1)
-plt.plot(t1,Y1,"o",color = 'black')
+print(Y)
+plt.plot(t,Y,"o",color = 'black')
 plt.show()

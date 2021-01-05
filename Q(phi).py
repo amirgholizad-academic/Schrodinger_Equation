@@ -23,7 +23,8 @@ def f1(y, x, t):
 
 #f2 is the righ hand side of the second equation
 def f2(y, x, t):
-	F2 = -y
+	m = 0
+	F2 = -y*(m**2)
 	return F2
 
 #the RK4 takes the h, t, N(the number of discretization)
@@ -64,15 +65,15 @@ def RK4(y0,x0,N,t,h):
 
 #take the intial conditions
 a = 0
-b = 5*math.pi*0.5
-N = 50
-y0 = 1
+b = 2*math.pi
+N = 1000
+y0 = 1/(4*math.pi)**(0.5)
 x0 = 0
-t = Discretizator(N1, a1, b1)[1]
-h = Discretizator(N1, a1, b1)[0]
+t = Discretizator(N, a, b)[1]
+h = Discretizator(N, a, b)[0]
 
-Y = RK4(y01,x01,N1,t1,h1)[0]
-X = RK4(y01,x01,N1,t1,h1)[1]
+Y = RK4(y0,x0,N,t,h)[0]
+X = RK4(y0,x0,N,t,h)[1]
 
 print(Y)
 plt.plot(t,Y,"o",color = 'black')
