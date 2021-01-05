@@ -1,9 +1,7 @@
 #Adding necessary libraries
 import numpy as np
 import pandas as pd
-import scipy as sp
 from matplotlib import pyplot as plt
-import decimal
 import math
 
 #Taking an interval of [a,b] for t and discretizating it to N+1 numbers
@@ -59,37 +57,23 @@ def RK4(y0,x0,N,t,h):
 
 	return [y,x]
 
-#if the given interval contains negative numbers we are going to need to
-# spilit it to two arrays and then concatenate them
-a1 = 0
-b1 = 5*math.pi*0.5
-N1 = 50
-y01 = 1
-x01 = 0
-t1 = Discretizator(N1, a1, b1)[1]
-h1 = Discretizator(N1, a1, b1)[0]
 
-Y1 = RK4(y01,x01,N1,t1,h1)[0]
-#Y1 = np.delete(Y1,0)
-X1 = RK4(y01,x01,N1,t1,h1)[1]
-#t1 = np.delete(t1,0)
+#the original ODE is : d^2(Q)/d(phi)^2 = -Q*(m**2)
+# by changing the variables we get : d(Q)/d(phi) = x , Q = y , phi = t
+# finally we get : d(y)/d(t) = f1 = x , d(x)/d(t) = -y*(m**2) = f2
 
-#a2 = 0
-#b2 = -5
-#N2 = 50
-#y02 = 10
-#x02 = 0
-#t2 = Discretizator(N2, a2, b2)[1]
-#h2 = Discretizator(N2, a2, b2)[0]
+#take the intial conditions
+a = 0
+b = 5*math.pi*0.5
+N = 50
+y0 = 1
+x0 = 0
+t = Discretizator(N1, a1, b1)[1]
+h = Discretizator(N1, a1, b1)[0]
 
-#Y2 = RK4(y02,x02,N2,t2,h2)[0]
-#X2 = RK4(y02,x02,N2,t2,h2)[1]
-#Y2 = Y2[::-1]
-#t2 = t2[::-1]
+Y = RK4(y01,x01,N1,t1,h1)[0]
+X = RK4(y01,x01,N1,t1,h1)[1]
 
-#Y = np.concatenate((Y2,Y1))
-#T = np.concatenate((t2,t1))
-
-print(Y1)
-plt.plot(t1,Y1,"o",color = 'black')
+print(Y)
+plt.plot(t,Y,"o",color = 'black')
 plt.show()
