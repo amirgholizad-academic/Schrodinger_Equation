@@ -26,7 +26,7 @@ def f2(y, x, t):
 	#V = -14.39998
 	#M = 1 / 18*(10**(-16))
 	#h = 7.6199682*M*(10**(-20))
-	n = 1
+	n = 2
 	#E = -13.6056 / (n ** 2)
 	k = 0
 	c = 9
@@ -68,6 +68,8 @@ def RK4(y0,x0,N,t,h):
 
 		y[n] = y[n - 1] + (K1y + 2 * K2y + 2 * K3y + K4y) * h / 6
 		x[n] = x[n - 1] + (K1x + 2 * K2x + 2 * K3x + K4x) * h / 6
+	#as the original form of the equation was U(r)=r*R(r)
+	# we should multiply every y[n] by t[n]
 	for p in range(0,len(y)):
 		y[n] = y[n] / t[n]
 
@@ -79,36 +81,19 @@ def RK4(y0,x0,N,t,h):
 
 #because the given interval for t = rho contains negative numbers we are going to need to
 # spilit it to two arrays and then concatenate them
-a1 = 0.000000000001
-b1 = 5
-N1 = 1000
+a = 0.000000000001
+b = 5
+N = 1000
 a0 = (1/2)
-y01 = 0
-x01 = a0**(-3/2)
-t1 = Discretizator(N1, a1, b1)[1]
-h1 = Discretizator(N1, a1, b1)[0]
+y0 = 0
+x0 = a0 ** (-3 / 2)
+t = Discretizator(N, a, b)[1]
+h = Discretizator(N, a, b)[0]
 
-Y1 = RK4(y01,x01,N1,t1,h1)[0]
-#Y1 = np.delete(Y1,0)
-X1 = RK4(y01,x01,N1,t1,h1)[1]
-#t1 = np.delete(t1,0)
+Y = RK4(y0, x0, N, t, h)[0]
+X = RK4(y0, x0, N, t, h)[1]
 
-#a2 = 0
-#b2 = -5
-#N2 = 50
-#y02 = 10
-#x02 = 0
-#t2 = Discretizator(N2, a2, b2)[1]
-#h2 = Discretizator(N2, a2, b2)[0]
 
-#Y2 = RK4(y02,x02,N2,t2,h2)[0]
-#X2 = RK4(y02,x02,N2,t2,h2)[1]
-#Y2 = Y2[::-1]
-#t2 = t2[::-1]
-
-#Y = np.concatenate((Y2,Y1))
-#T = np.concatenate((t2,t1))
-
-print(Y1)
-plt.plot(t1,Y1,"o",color = 'black')
+print(Y)
+plt.plot(t, Y, "o", color ='black')
 plt.show()
