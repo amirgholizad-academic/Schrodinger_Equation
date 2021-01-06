@@ -60,12 +60,6 @@ def RK4(y0,x0,N,t,h):
 		K4y = f1(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h)
 		K4x = f2(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h)
 
-		#Mprime = 1 / 18
-		#hprime = 7.6199682 * Mprime
-		#nprime = 1
-		#Eprime = -13.6056 / (nprime ** 2)
-		#alpha = ((-8*Mprime*Eprime)**0.5)/hprime
-
 		y[n] = y[n - 1] + (K1y + 2 * K2y + 2 * K3y + K4y) * h / 6
 		x[n] = x[n - 1] + (K1x + 2 * K2x + 2 * K3x + K4x) * h / 6
 	#as the original form of the equation was U(r)=r*R(r)
