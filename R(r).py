@@ -29,9 +29,10 @@ def f2(y, x, t):
 	n = 1
 	#E = -13.6056 / (n ** 2)
 	k = 0
-	a0 = 1/2
+	c = 9
+	a0 = (1/2)
 	landa = 1/(n*a0)
-	F2 = y*(k/(t**2) + 1/4 - landa/t) - (2/t)*x
+	F2 = y*((1/(n*a0)**2)-2/(t*a0)+k/(t**2))
 	return F2
 
 #the RK4 takes the h, t, N(the number of discretization)
@@ -67,7 +68,8 @@ def RK4(y0,x0,N,t,h):
 
 		y[n] = y[n - 1] + (K1y + 2 * K2y + 2 * K3y + K4y) * h / 6
 		x[n] = x[n - 1] + (K1x + 2 * K2x + 2 * K3x + K4x) * h / 6
-
+	for p in range(0,len(y)):
+		y[n] = y[n] / t[n]
 
 	return [y,x]
 
@@ -78,11 +80,11 @@ def RK4(y0,x0,N,t,h):
 #because the given interval for t = rho contains negative numbers we are going to need to
 # spilit it to two arrays and then concatenate them
 a1 = 0.000000000001
-b1 = 10
+b1 = 5
 N1 = 1000
-a0 = 1/2
-y01 = a0**(-3/2)
-x01 = -a0**(-5/2)
+a0 = (1/2)
+y01 = 0
+x01 = a0**(-3/2)
 t1 = Discretizator(N1, a1, b1)[1]
 h1 = Discretizator(N1, a1, b1)[0]
 
