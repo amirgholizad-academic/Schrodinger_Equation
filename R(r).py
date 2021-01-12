@@ -1,9 +1,9 @@
 #Adding necessary libraries
+import math
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-import math
 import matplotlib as mpl
+from matplotlib import pyplot as plt
 
 #Taking an interval of [a,b] for t and discretizating it to N+1 numbers
 def Discretizator(N, a, b):
@@ -27,10 +27,10 @@ def f2(y, x, t, k, s, a0):
 	F2 = y*((1/(s*a0)**2)-2/(t*a0)+k/(t**2))
 	return F2
 
-#the RK4 takes the h, t, N(the number of discretization)
-# and initial conditions and returns the solution as two arrays
+#the RK4 takes the h, t, N(the number of discretization), coefficients(k, n1234, a0)
+# and initial conditions, then returns the solution as two arrays
 # using Runge-Kutta algorithm
-def RK4(y0,x0,N,t,h,k,s,a0):
+def RK4(y0, x0, N, t, h, k, n1234, a0):
 
 	y = np.zeros(N + 1)
 	x = np.zeros(N + 1)
@@ -40,17 +40,17 @@ def RK4(y0,x0,N,t,h,k,s,a0):
 	for n in range(1,N+1):
 
 		K1y = f1(y[n - 1], x[n - 1], t[n - 1])
-		K1x = f2(y[n - 1], x[n - 1], t[n - 1], k, s, a0)
+		K1x = f2(y[n - 1], x[n - 1], t[n - 1], k, n1234, a0)
 
 
 		K2y = f1(y[n - 1] + K1y * (h / 2), x[n - 1] + K1x * (h / 2), t[n - 1] + h / 2)
-		K2x = f2(y[n - 1] + K1y * (h / 2), x[n - 1] + K1x * (h / 2), t[n - 1] + h / 2, k, s, a0)
+		K2x = f2(y[n - 1] + K1y * (h / 2), x[n - 1] + K1x * (h / 2), t[n - 1] + h / 2, k, n1234, a0)
 
 		K3y = f1(y[n - 1] + K2y * (h / 2), x[n - 1] + K2x * (h / 2), t[n - 1] + h / 2)
-		K3x = f2(y[n - 1] + K2y * (h / 2), x[n - 1] + K2x * (h / 2), t[n - 1] + h / 2, k, s, a0)
+		K3x = f2(y[n - 1] + K2y * (h / 2), x[n - 1] + K2x * (h / 2), t[n - 1] + h / 2, k, n1234, a0)
 
 		K4y = f1(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h)
-		K4x = f2(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h, k, s, a0)
+		K4x = f2(y[n - 1] + K3y * h, x[n - 1] + K3x * h, t[n - 1] + h, k, n1234, a0)
 
 		y[n] = y[n - 1] + (K1y + 2 * K2y + 2 * K3y + K4y) * h / 6
 		x[n] = x[n - 1] + (K1x + 2 * K2x + 2 * K3x + K4x) * h / 6
@@ -65,9 +65,7 @@ def RK4(y0,x0,N,t,h,k,s,a0):
 # by changing the variables we get : d(U)/d(rho) = x , U = y , rho = t
 # finally we get :  d(y)/d(t) = f1 = x , d(x)/d(t) = y*(k/t**2 + 1/4 - landa/t) - (2/t)*x = f2
 
-#because the given interval for t = rho contains negative numbers we are going to need to
-# spilit it to two arrays and then concatenate them
-
+#instead of normal intervals and to be get more efficient plots, we start from 20 and go to 0,0001
 a = 20
 b = 0.0001
 N = 1000
@@ -103,14 +101,13 @@ k4 = 0
 a04 = 0.5
 Y4 = RK4(y04, x04, N, t, h, k4, n4, a04)[0]
 
-
+# now we plot all 4 graphs
 fig = plt.figure(figsize=(6,4))
 mpl.rcParams['font.family'] = ['serif']
 mpl.rcParams['font.size'] = 10
 axes = fig.add_axes([0.1,0.1,0.8,0.8])
 line_style = ['-', '--', ':', '-.']
 
-# now we plot all 4 graphs
 axes.plot(t, Y1, label=fr'$R_{1}^{0}$'+'(r)', linestyle=line_style[0], color='black')
 axes.plot(t, Y2, label=fr'$R_{2}^{1}$'+'(r)', linestyle=line_style[1], color='black')
 axes.plot(t, Y3, label=fr'$R_{2}^{0}$'+'(r)', linestyle=line_style[2], color='black')

@@ -1,11 +1,9 @@
 #Adding necessary libraries
+import math
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
 import matplotlib as mpl
-import math
-from matplotlib.ticker import MaxNLocator
-import seaborn as sns
+from matplotlib import pyplot as plt
 
 #Taking an interval of [a,b] for t and discretizating it to N+1 numbers
 def Discretizator(N, a, b):
@@ -29,9 +27,9 @@ def f2(y, x, t, m):
 	F2 = -y*(m**2)
 	return F2
 
-#the RK4 takes the h, t, N(the number of discretization)
-# and initial conditions and returns the solution as two arrays
-# using Runge-Kutta algorithm
+#the RK4 takes the h, t, N(the number of discretization)and
+# coefficient m and initial conditions, then
+# returns the solution as two arrays using Runge-Kutta algorithm
 def RK4(y0, x0, N, t, h, m):
 
 	y = np.zeros(N + 1)
@@ -83,13 +81,13 @@ for m in range(0,4):
 	Y[m] = RK4(y0, x0, N, t, h, m)[0]
 
 
+# now we plot all 4 graphs
 mpl.rcParams['font.family'] = ['serif']
 mpl.rcParams['font.size'] = 10
 fig = plt.figure(figsize=(6,4))
 axes = fig.add_axes([0.1,0.1,0.8,0.8])
 line_style = ['-', '--', ':', '-.']
 
-# now we plot all 4 graphs
 for m in range(0,4):
 	axes.plot(t, Y[m], label=fr'$Q_{m}$'+'(\u03C6)', linestyle=line_style[m], color='black')
 
